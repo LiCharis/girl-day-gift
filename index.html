@@ -18,6 +18,7 @@
         body {
             font-family: Arial, sans-serif;
             overflow-x: hidden;
+            background: #f0f0f0;
         }
 
         section {
@@ -30,7 +31,8 @@
             overflow: hidden;
         }
 
-         .petal-1 {
+        /* 花瓣样式 */
+        .petal-1 {
             position: absolute;
             width: 25px;
             height: 25px;
@@ -78,6 +80,7 @@
             animation: fall 5s linear infinite;
         }
 
+        /* 各section背景 */
         .section1 {
             background: linear-gradient(135deg, #ffcccb, #ffe4e1);
         }
@@ -90,10 +93,15 @@
             background: linear-gradient(135deg, #dda0dd, #da70d6);
         }
 
-        .final-section {
+        .section4 {
             background: linear-gradient(135deg, #ff69b4, #ff1493);
         }
 
+        .final-section {
+            background: linear-gradient(135deg, #ff1493, #c71585);
+        }
+
+        /* 内容样式 */
         .content {
             text-align: center;
             color: #fff;
@@ -101,6 +109,7 @@
             transform: translateY(50px);
             transition: all 1s ease;
             z-index: 2;
+            padding: 20px;
         }
 
         .content.active {
@@ -109,31 +118,19 @@
         }
 
         .content h2 {
-            font-size: 3em;
+            font-size: 3.5em;
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
         }
 
         .content p {
-            font-size: 1.5em;
+            font-size: 1.6em;
             line-height: 1.6;
             max-width: 800px;
             margin: 0 auto;
-            padding: 0 20px;
         }
 
-        .petal {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2C8 2 4 6 4 12C4 18 8 22 12 22C16 22 20 18 20 12C20 6 16 2 12 2Z" fill="pink"/><path d="M12 6C10 6 8 8 8 12C8 16 10 18 12 18C14 18 16 16 16 12C16 8 14 6 12 6Z" fill="red"/></svg>');
-            background-size: cover;
-            opacity: 0.9;
-            pointer-events: none;
-            z-index: 100;
-            animation: fall 5s linear infinite;
-        }
-
+        /* 滚动指示器 */
         .scroll-indicator {
             position: absolute;
             bottom: 30px;
@@ -141,10 +138,12 @@
             transform: translateX(-50%);
             animation: bounce 2s infinite;
             cursor: pointer;
-            color: white;
+            color: #fff;
             font-size: 2em;
+            z-index: 10;
         }
 
+        /* 心形动画 */
         .hearts {
             position: absolute;
             width: 100%;
@@ -161,13 +160,61 @@
             animation: heartFloat 4s linear infinite;
         }
 
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            left: -10px;
+        }
+
+        .heart::after {
+            top: -10px;
+        }
+
         .final-message {
-            font-size: 4em;
-            color: white;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            font-size: 4.5em;
+            color: #fff;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
             animation: pulse 2s infinite;
         }
 
+        /* 音乐控制按钮 */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .music-control:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .music-control.playing::after {
+            content: "🎵";
+        }
+
+        .music-control.paused::after {
+            content: "⏸";
+        }
+
+        /* 关键帧动画 */
         @keyframes fall {
             0% {
                 opacity: 0.9;
@@ -216,131 +263,87 @@
                 opacity: 0;
             }
         }
-
-        .heart::before,
-        .heart::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: #fff;
-            border-radius: 50%;
-        }
-
-        .heart::before {
-            left: -10px;
-        }
-
-        .heart::after {
-            top: -10px;
-        }
-
-
- /* 添加音乐控制按钮样式 */
-        .music-control {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .music-control:hover {
-            background: rgba(255, 255, 255, 0.8);
-        }
-
-        .music-control.playing::after {
-            content: "🎵";
-        }
-
-        .music-control.paused::after {
-            content: "⏸";
-        }
-
-
     </style>
 </head>
 <body>
-
- <!-- 在body开始处添加音频元素和控制按钮 -->
+    <!-- 音频和音乐控制 -->
     <audio id="bgMusic" loop>
-        <!-- 可以添加多个音源以确保兼容性 -->
         <source src="http://music.163.com/song/media/outer/url?id=520849195.mp3" type="audio/mpeg">
         您的浏览器不支持音频播放。
     </audio>
     <div class="music-control playing" id="musicControl"></div>
 
-
-
+    <!-- 第一部分：开场 -->
     <section class="section1">
         <div class="content">
             <h2>春暖花开</h2>
-            <p>在这个特别的日子里，愿每一个微笑都如春日般温暖</p>
+            <p>在这个特别的日子里，愿每一个微笑都如春日般温暖，迎接属于你的美好时光。</p>
         </div>
         <div class="scroll-indicator">↓</div>
     </section>
 
+    <!-- 第二部分：美丽主题 -->
     <section class="section2">
         <div class="content">
             <h2>美丽绽放</h2>
-            <p>愿你如花般绽放，散发独特的魅力</p>
+            <p>愿你如花般绽放，散发独特的魅力，勇敢展现真实的自己。</p>
         </div>
         <div class="scroll-indicator">↓</div>
     </section>
 
+    <!-- 第三部分：幸福主题 -->
     <section class="section3">
         <div class="content">
             <h2>幸福时光</h2>
-            <p>愿你的每一天都充满欢笑和幸福</p>
+            <p>愿你的每一天都充满欢笑和幸福，生活如诗般美好。</p>
         </div>
         <div class="scroll-indicator">↓</div>
     </section>
 
+    <!-- 第四部分：梦想主题 -->
+    <section class="section4">
+        <div class="content">
+            <h2>梦想成真</h2>
+            <p>愿你的梦想如繁星般闪耀，照亮前行的道路，成就无限可能。</p>
+        </div>
+        <div class="scroll-indicator">↓</div>
+    </section>
+
+    <!-- 最终部分：祝福 -->
     <section class="final-section">
         <div class="hearts"></div>
-        <div class="final-message">
-            女生节快乐！
-        </div>
+        <div class="final-message">女生节快乐！</div>
     </section>
 
     <script>
-        // 监听滚动事件，实现内容渐入效果
+        // 渐入效果
         const contents = document.querySelectorAll('.content');
-        
         function checkScroll() {
             contents.forEach(content => {
                 const contentPosition = content.getBoundingClientRect().top;
                 const screenPosition = window.innerHeight / 1.3;
-                
-                if(contentPosition < screenPosition) {
+                if (contentPosition < screenPosition) {
                     content.classList.add('active');
                 }
             });
         }
-
         window.addEventListener('scroll', checkScroll);
-        checkScroll(); // 初始检查
+        checkScroll();
 
-        // 创建花瓣的函数
+        // 创建花瓣
         function createPetal(section) {
+            const sectionIndex = Array.from(document.querySelectorAll('section')).indexOf(section) + 1;
             const petal = document.createElement('div');
-            petal.className = 'petal';
+            petal.className = `petal-${sectionIndex % 4 || 4}`;
             petal.style.left = Math.random() * 100 + 'vw';
+            const scale = 0.8 + Math.random() * 0.4;
+            petal.style.transform = `scale(${scale})`;
             petal.style.animationDuration = Math.random() * 2 + 3 + 's';
             petal.style.animationDelay = Math.random() + 's';
             section.appendChild(petal);
             setTimeout(() => petal.remove(), 5000);
         }
 
-        // 监听滚动事件，在可见section中创建花瓣
         function handleScroll() {
             const sections = document.querySelectorAll('section');
             sections.forEach(section => {
@@ -350,21 +353,11 @@
                 }
             });
         }
-
-        // 添加滚动事件监听器
-        window.addEventListener('scroll', () => {
-            requestAnimationFrame(handleScroll);
-        });
-
-        // 初始化时创建花瓣
+        window.addEventListener('scroll', () => requestAnimationFrame(handleScroll));
         handleScroll();
+        setInterval(handleScroll, 200);
 
-        // 每200ms创建一次花瓣
-        setInterval(() => {
-            handleScroll();
-        }, 200);
-
-        // 创建漂浮的心形
+        // 创建心形
         function createHeart() {
             const hearts = document.querySelector('.hearts');
             const heart = document.createElement('div');
@@ -372,15 +365,11 @@
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
             hearts.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 5000);
+            setTimeout(() => heart.remove(), 5000);
         }
-
         setInterval(createHeart, 300);
 
-        // 点击箭头滚动到下一部分
+        // 滚动指示器点击事件
         document.querySelectorAll('.scroll-indicator').forEach(indicator => {
             indicator.addEventListener('click', function() {
                 const nextSection = this.parentElement.nextElementSibling;
@@ -388,73 +377,22 @@
             });
         });
 
-
-// 创建花瓣的函数
-        function createPetal(section) {
-            const sectionIndex = Array.from(document.querySelectorAll('section')).indexOf(section) + 1;
-            const petal = document.createElement('div');
-            petal.className = `petal-${sectionIndex}`; // 根据section序号使用对应的花瓣样式
-            petal.style.left = Math.random() * 100 + 'vw';
-            
-            // 随机调整花瓣大小
-            const scale = 0.8 + Math.random() * 0.4; // 0.8-1.2之间的随机值
-            petal.style.transform = `scale(${scale})`;
-            
-            // 随机调整动画时间和延迟
-            petal.style.animationDuration = Math.random() * 2 + 3 + 's';
-            petal.style.animationDelay = Math.random() + 's';
-            
-            section.appendChild(petal);
-            setTimeout(() => petal.remove(), 5000);
-        }
-
-        // 监听滚动事件，在可见section中创建花瓣
-        function handleScroll() {
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    createPetal(section);
-                }
-            });
-        }
-
-        // 添加滚动事件监听器
-        window.addEventListener('scroll', () => {
-            requestAnimationFrame(handleScroll);
-        });
-
-        // 初始化时创建花瓣
-        handleScroll();
-
-        // 每200ms创建一次花瓣
-        setInterval(() => {
-            handleScroll();
-        }, 200);
-
-
- // 在script末尾添加音乐控制相关代码
+        // 音乐控制
         document.addEventListener('DOMContentLoaded', function() {
             const audio = document.getElementById('bgMusic');
             const musicControl = document.getElementById('musicControl');
-            
-            // 尝试自动播放
+
             const playPromise = audio.play();
-            
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    // 自动播放成功
                     musicControl.classList.add('playing');
                     musicControl.classList.remove('paused');
-                }).catch(error => {
-                    // 自动播放失败
-                    console.log("Auto-play was prevented");
+                }).catch(() => {
                     musicControl.classList.add('paused');
                     musicControl.classList.remove('playing');
                 });
             }
 
-            // 音乐控制按钮点击事件
             musicControl.addEventListener('click', function() {
                 if (audio.paused) {
                     audio.play();
@@ -467,7 +405,6 @@
                 }
             });
 
-            // 处理页面可见性变化
             document.addEventListener('visibilitychange', function() {
                 if (document.hidden) {
                     audio.pause();
@@ -480,9 +417,6 @@
                 }
             });
         });
-
-
-
     </script>
 </body>
 </html>
